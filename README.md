@@ -21,4 +21,4 @@ This software has been tested with a *Logitech Trackman Marble*(tm) and *Microso
 ######Running
 - Execute the program. An empty console window is displayed while it is running.
 - When using this program with a driver software that allows customization of the button behavior, make sure to set the X-Buttons to default behavior. E.g. with a *Logitech Trackman Marble*, make sure to set the buttons 3 and 4 to `default` button behaviour and not `back`/`Universal Scroll`.
-- The lines scrolled per wheel event are determined by the Microsoft Windows mouse wheel settings.
+- The lines scrolled per wheel event are determined by the *Microsoft Windows* mouse wheel settings.
