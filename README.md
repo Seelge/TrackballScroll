@@ -12,17 +12,16 @@ Changes the behaviour of both X-Buttons (typically buttons 3 and 4) to
 
 This software has been tested with a *Logitech Trackman Marble*(tm) and *Microsoft Windows 8.1* and *7*.
 
-###### Downloading an executable
-Download the `TrackballScroll.exe` file from
+###### Download the latest release
 https://github.com/Seelge/TrackballScroll/releases/latest
 
-###### Running the program
-- Execute `TrackballScroll.exe`. No installation is necessary. An **empty console window** is displayed while it is running.
+###### Run the program
+- Execute `TrackballScroll.exe`, no installation is necessary. A console window is displayed while the program is running.
 - When using this program with a driver software that allows customization of the button behavior, make sure to set the X-Buttons to default behavior. E.g. with a *Logitech Trackman Marble*, make sure to set the buttons 3 and 4 to `default` button behaviour and not `back`/`Universal Scroll`.
 - The lines scrolled per wheel event are determined by the *Microsoft Windows* mouse wheel settings.
 
-###### Compiling the source code
-- Clone the repository or download the source code archive
+###### Compile the source code
+- Clone the repository from the github page or download the latest source code archive
 - Open the solution with *Microsoft Visual Studio 2013*. If you are using a different version, create a new solution and add the missing files.
 - Change the build type to `Release` and `x64`. The program also works in both 64 and 32 bit programs.
 - Build the solution

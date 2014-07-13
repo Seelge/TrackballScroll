@@ -6,6 +6,7 @@
 // @date 2014-07-12
 ///////////////////////////////////////////////////////////////////////
 #include <windows.h>
+#include <iostream>
 const int Y_THRESHOLD = 10;   // threshold in pixels to trigger wheel event
 const DWORD WHEEL_FACTOR = 1; // number of wheel events. The lines scrolled per wheel event are determined by the Microsoft Windows mouse wheel settings.
 enum State {
@@ -92,6 +93,7 @@ LRESULT CALLBACK LowLevelMouseProc(int nCode, WPARAM wParam, LPARAM lParam) {
 int main() {
 	g_Hook = SetWindowsHookEx(WH_MOUSE_LL, &LowLevelMouseProc, GetModuleHandle(0), 0);
 	if (!g_Hook) return 1; // hook failed
+	std::cout << "TrackballScroll v1.0.1\r\nCopyright (c) 2014 Martin Seelge, License: The MIT License (MIT)\r\n\r\nProject URL: https://github.com/Seelge/TrackballScroll/\r\nSee README.md for information on how to use this program.\r\n\r\nMouse hook registered, ready to scroll.";
 	MSG message;
 	while (GetMessage(&message, NULL, 0, 0) > 0) // message pump, currently no exit event exists
 		DispatchMessage(&message);
