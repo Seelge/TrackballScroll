@@ -7,7 +7,7 @@
 ///////////////////////////////////////////////////////////////////////
 #include <windows.h>
 const int Y_THRESHOLD = 10;   // threshold in pixels to trigger wheel event
-const DWORD WHEEL_FACTOR = 1; // number of wheel events
+const DWORD WHEEL_FACTOR = 1; // number of wheel events. The lines scrolled per wheel event are determined by the Microsoft Windows mouse wheel settings.
 enum State {
 	NORMAL = 0, // default state
 	DOWN,       // mouse XButton pressed, no movement
