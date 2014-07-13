@@ -13,6 +13,7 @@ Changes the behaviour of both X-Buttons (typically buttons 3 and 4) to
 This software has been tested with a *Logitech Trackman Marble*(tm) and *Microsoft Windows 8.1* and *7*.
 
 ###### Downloading an executable
+Download the `TrackballScroll.exe` file from
 https://github.com/Seelge/TrackballScroll/releases/latest
 
 ###### Running the program
