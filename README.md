@@ -1,6 +1,6 @@
 TrackballScroll
 ===============
-**Allow scrolling with a trackball without a scroll wheel by using a low level mouse hook.**
+**Allow scrolling with a trackball without scroll wheel by using a low level mouse hook.**
 
 Changes the behaviour of both X-Buttons (typically buttons 3 and 4) to
 - Scrolling, i.e. vertical mouse wheel events, when an X-Button is pressed and the trackball is moved
