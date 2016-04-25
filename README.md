@@ -12,7 +12,7 @@ Changes the behaviour of both X-Buttons (typically buttons 3 and 4) to
 
 This software has been tested with a *Logitech Trackman Marble*(tm) and *Microsoft Windows 8.1* and *7*.
 
-*Windows 10 unsolved issue* see https://github.com/Seelge/TrackballScroll/issues/2
+*Windows 10* bug see https://github.com/Seelge/TrackballScroll/issues/2
 
 ###### Download the latest release
 https://github.com/Seelge/TrackballScroll/releases/latest
