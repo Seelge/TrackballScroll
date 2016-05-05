@@ -3,14 +3,14 @@ TrackballScroll
 **Allow scrolling with a trackball without scroll wheel by using a low level mouse hook.**
 
 Changes the behaviour of both X-Buttons (typically buttons 3 and 4) to
-- Scrolling, i.e. vertical mouse wheel events, when an X-Button is pressed and the trackball is moved
+- Scrolling, i.e. vertical/horizontal mouse wheel events, when an X-Button is pressed and the trackball is moved vertically/horizontally
 - Middle button click, when an X-Button is pressed and released without trackball movement
 
 ###### Requirements
 - A trackball or mouse with X-Buttons
 - A Microsoft Windows operating system
 
-This software has been tested with a *Logitech Trackman Marble*(tm) and *Microsoft Windows 8.1* and *7*.
+This software has been tested with a *Logitech Trackman Marble*(tm) and *Microsoft Windows 10*, *8.1* and *7*.
 
 *Windows 10* bug see https://github.com/Seelge/TrackballScroll/issues/2
 
