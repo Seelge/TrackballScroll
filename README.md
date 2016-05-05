@@ -24,6 +24,6 @@ https://github.com/Seelge/TrackballScroll/releases/latest
 
 ###### Compile the source code
 - Clone the repository from the github page or download the latest source code archive
-- Open the solution with *Microsoft Visual Studio 2013*. If you are using a different version, e.g. *Visual C++ Express*, create a new solution and add the `TrackballScropp.cpp` file.
+- Open the solution with *Microsoft Visual Studio 2015*. If you are using a different version, create a new solution and add the `TrackballScropp.cpp` file.
 - Change the build type to `Release` and `x64`. The program also works in both 64 and 32 bit programs.
 - Build the solution
