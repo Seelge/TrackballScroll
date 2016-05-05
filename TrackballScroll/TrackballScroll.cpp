@@ -7,6 +7,7 @@
 ///////////////////////////////////////////////////////////////////////
 #include <windows.h>
 #include <iostream>
+const int X_THRESHOLD = 10;   // threshold in pixels to trigger wheel event
 const int Y_THRESHOLD = 10;   // threshold in pixels to trigger wheel event
 const DWORD WHEEL_FACTOR = 1; // number of wheel events. The lines scrolled per wheel event are determined by the Microsoft Windows mouse wheel settings.
 enum State {
@@ -17,6 +18,7 @@ enum State {
 HHOOK g_Hook;           // callback function hook, called for every mouse event
 State g_state = NORMAL; // initial state
 POINT g_origin;         // cursor position when entering state DOWN
+int g_xcount = 0;       // accumulated horizontal movement while in state SCROLL
 int g_ycount = 0;       // accumulated vertical movement while in state SCROLL
 
 LRESULT CALLBACK LowLevelMouseProc(int nCode, WPARAM wParam, LPARAM lParam) {
@@ -56,6 +58,7 @@ LRESULT CALLBACK LowLevelMouseProc(int nCode, WPARAM wParam, LPARAM lParam) {
 		else if (wParam == WM_MOUSEMOVE) { // DOWN->SCROLL
 			preventCallNextHookEx = TRUE;
 			g_state = SCROLL;
+			g_xcount = 0;
 			g_ycount = 0;
 			SetCursorPos(g_origin.x, g_origin.y);
 		}
@@ -67,10 +70,12 @@ LRESULT CALLBACK LowLevelMouseProc(int nCode, WPARAM wParam, LPARAM lParam) {
 		}
 		else if (wParam == WM_MOUSEMOVE) { // SCROLL->SCROLL: wheel event
 			preventCallNextHookEx = TRUE;
+			g_xcount += p->pt.x - g_origin.x;
 			g_ycount += p->pt.y - g_origin.y;
 			SetCursorPos(g_origin.x, g_origin.y);
-			if (g_ycount < -Y_THRESHOLD || g_ycount > Y_THRESHOLD){
-				DWORD mouseData = (g_ycount > 0 ? -WHEEL_DELTA : +WHEEL_DELTA); // scroll direction
+			if (g_xcount < -X_THRESHOLD || g_xcount > X_THRESHOLD){
+				DWORD mouseData = (g_xcount > 0 ? +WHEEL_DELTA : -WHEEL_DELTA); // scroll direction
+				g_xcount = 0;
 				g_ycount = 0;
 				INPUT input[WHEEL_FACTOR];
 				for (size_t i = 0; i < WHEEL_FACTOR; ++i) {
@@ -78,7 +83,23 @@ LRESULT CALLBACK LowLevelMouseProc(int nCode, WPARAM wParam, LPARAM lParam) {
 					input[i].mi.dx = p->pt.x;
 					input[i].mi.dy = p->pt.y;
 					input[i].mi.mouseData = mouseData;
-					input[i].mi.dwFlags = MOUSEEVENTF_WHEEL; // wheel
+					input[i].mi.dwFlags = MOUSEEVENTF_HWHEEL; // horizontal wheel
+					input[i].mi.time = (DWORD)0x0;
+					input[i].mi.dwExtraInfo = (ULONG_PTR)NULL;
+				}
+				SendInput(WHEEL_FACTOR, input, sizeof(INPUT));
+			}
+			if (g_ycount < -Y_THRESHOLD || g_ycount > Y_THRESHOLD) {
+				DWORD mouseData = (g_ycount > 0 ? -WHEEL_DELTA : +WHEEL_DELTA); // scroll direction
+				g_xcount = 0;
+				g_ycount = 0;
+				INPUT input[WHEEL_FACTOR];
+				for (size_t i = 0; i < WHEEL_FACTOR; ++i) {
+					input[i].type = INPUT_MOUSE;
+					input[i].mi.dx = p->pt.x;
+					input[i].mi.dy = p->pt.y;
+					input[i].mi.mouseData = mouseData;
+					input[i].mi.dwFlags = MOUSEEVENTF_WHEEL; // vertical wheel
 					input[i].mi.time = (DWORD)0x0;
 					input[i].mi.dwExtraInfo = (ULONG_PTR)NULL;
 				}
@@ -93,7 +114,7 @@ LRESULT CALLBACK LowLevelMouseProc(int nCode, WPARAM wParam, LPARAM lParam) {
 int main() {
 	g_Hook = SetWindowsHookEx(WH_MOUSE_LL, &LowLevelMouseProc, GetModuleHandle(0), 0);
 	if (!g_Hook) return 1; // hook failed
-	std::cout << "TrackballScroll v1.0.1\r\nCopyright (c) 2014 Martin Seelge, License: The MIT License (MIT)\r\n\r\nProject URL: https://github.com/Seelge/TrackballScroll/\r\nSee README.md for information on how to use this program.\r\n\r\nMouse hook registered, ready to scroll.";
+	std::cout << "TrackballScroll v1.1.0\r\nCopyright (c) 2016 Martin Seelge, License: The MIT License (MIT)\r\n\r\nProject URL: https://github.com/Seelge/TrackballScroll/\r\nSee README.md for information on how to use this program.\r\n\r\nMouse hook registered, ready to scroll.";
 	MSG message;
 	while (GetMessage(&message, NULL, 0, 0) > 0) // message pump, currently no exit event exists
 		DispatchMessage(&message);
