@@ -8,11 +8,9 @@ Changes the behaviour of both X-Buttons (typically buttons 3 and 4) to
 
 ###### Requirements
 - A trackball or mouse with X-Buttons
-- A Microsoft Windows operating system
+- A Microsoft Windows operating system with .NET 4.5.2
 
-This software has been tested with a *Logitech Trackman Marble*(tm) and *Microsoft Windows 10*, *8.1* and *7*.
-
-*Windows 10* bug see https://github.com/Seelge/TrackballScroll/issues/2
+This software has been tested with a *Logitech Marble Trackball*(tm) and *Microsoft Windows 10*.
 
 ###### Download the latest release
 https://github.com/Seelge/TrackballScroll/releases/latest
@@ -24,6 +22,11 @@ https://github.com/Seelge/TrackballScroll/releases/latest
 
 ###### Compile the source code
 - Clone the repository from the github page or download the latest source code archive
-- Open the solution with *Microsoft Visual Studio 2015*. If you are using a different version, create a new solution and add the `TrackballScropp.cpp` file.
-- Change the build type to `Release` and `x64`. The program also works in both 64 and 32 bit programs.
+- Open the solution with *Microsoft Visual Studio 2015*.
+- Change the build type to `Release`. The program works in both 64 and 32 bit programs.
 - Build the solution
+
+###### Version history
+- v2.0.0 The application is accessible through a systray-icon, the console window is gone. Converted from C++ to C#.
+- v1.1.0 Add horizontal scroll 
+- v1.0.1 Add info to the console window
