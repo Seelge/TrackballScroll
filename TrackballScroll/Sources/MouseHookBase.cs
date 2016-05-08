@@ -11,8 +11,6 @@ namespace TrackballScroll
      */
     abstract class MouseHookBase
     {
-        private const int WH_MOUSE_LL = 14; // WinUser.h
-
         private NativeMethods.LowLevelMouseProc _proc;
         protected IntPtr _hookID = IntPtr.Zero;
 
@@ -49,7 +47,7 @@ namespace TrackballScroll
             using (Process curProcess = Process.GetCurrentProcess())
             using (ProcessModule curModule = curProcess.MainModule)
             {
-                return NativeMethods.SetWindowsHookEx(WH_MOUSE_LL, proc, NativeMethods.GetModuleHandle(curModule.ModuleName), 0);
+                return NativeMethods.SetWindowsHookEx(WinAPI.WH_MOUSE_LL, proc, NativeMethods.GetModuleHandle(curModule.ModuleName), 0);
             }
         }
 

@@ -13,6 +13,7 @@ namespace TrackballScroll
         // WinUser.h defines
         public const int HC_ACTION = 0;
         public const int INPUT_MOUSE = 0;
+        public const int WH_MOUSE_LL = 14;
         public const int WHEEL_DELTA = 120;
 
         public enum MouseMessages : uint
