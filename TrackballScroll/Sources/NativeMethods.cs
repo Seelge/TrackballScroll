@@ -30,5 +30,8 @@ namespace TrackballScroll
 
         [DllImport("user32.dll", CharSet = CharSet.Unicode, SetLastError = true, ThrowOnUnmappableChar = true)]
         public static extern bool SetCursorPos(int X, int Y);
+
+        [DllImport("gdi32.dll")]
+        public static extern int GetDeviceCaps(IntPtr hdc, int nIndex);
     }
 }

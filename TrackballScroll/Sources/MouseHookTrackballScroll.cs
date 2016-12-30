@@ -27,6 +27,12 @@ namespace TrackballScroll
         WinAPI.POINT _origin;         // cursor position when entering state DOWN
         int _xcount = 0;       // accumulated horizontal movement while in state SCROLL
         int _ycount = 0;       // accumulated vertical movement while in state SCROLL
+        private readonly float _scalingFactor;
+
+        public MouseHookTrackballScroll(float scalingFactor)
+        {
+            _scalingFactor = scalingFactor;
+        }
 
         public override IntPtr HookCallback(int nCode, IntPtr wParam, IntPtr lParam)
         {
@@ -89,7 +95,11 @@ namespace TrackballScroll
                         preventCallNextHookEx = true;
                         _xcount += p.pt.x - _origin.x;
                         _ycount += p.pt.y - _origin.y;
-                        NativeMethods.SetCursorPos(_origin.x, _origin.y);
+
+                        var originXScaled = (int)(_origin.x / _scalingFactor);
+                        var originYScaled = (int) (_origin.y / _scalingFactor);
+
+                        NativeMethods.SetCursorPos(originXScaled, originYScaled);
                         if (_xcount < -X_THRESHOLD || _xcount > X_THRESHOLD)
                         {
                             uint mouseData = (uint)(_xcount > 0 ? +WinAPI.WHEEL_DELTA : -WinAPI.WHEEL_DELTA); // scroll direction
@@ -111,6 +121,7 @@ namespace TrackballScroll
                             }
                             NativeMethods.SendInput((uint)input.Length, input, Marshal.SizeOf(typeof(WinAPI.INPUT)));
                         }
+
                         if (_ycount < -Y_THRESHOLD || _ycount > Y_THRESHOLD)
                         {
                             uint mouseData = (uint)(_ycount > 0 ? -WinAPI.WHEEL_DELTA : +WinAPI.WHEEL_DELTA); // scroll direction
