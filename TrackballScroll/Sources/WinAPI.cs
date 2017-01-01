@@ -65,5 +65,11 @@ namespace TrackballScroll
             public uint time;
             public IntPtr dwExtraInfo;
         }
+
+        public enum DeviceCap
+        {
+            VERTRES = 10,
+            DESKTOPVERTRES = 117,
+        }
     }
 }

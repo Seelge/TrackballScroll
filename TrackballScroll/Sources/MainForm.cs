@@ -25,10 +25,13 @@ namespace TrackballScroll
         private NotifyIcon trayIcon;
         private MenuItem itemEnabled;
         private MenuItem itemPreferAxis;
-        private MouseHookTrackballScroll mouseHook = new MouseHookTrackballScroll();
+        private MouseHookTrackballScroll mouseHook;
 
         public MainForm()
         {
+            var scalingFactor = GetScalingFactor();
+            mouseHook = new MouseHookTrackballScroll(scalingFactor);
+
             itemEnabled = new MenuItem(Properties.Resources.TextButtonHookEnabled, OnToggleHook);
             itemEnabled.Checked = true;
 
@@ -97,6 +100,17 @@ namespace TrackballScroll
         {
             mouseHook.Unhook();
             Application.Exit();
+        }
+        private float GetScalingFactor()
+        {
+            Graphics g = Graphics.FromHwnd(IntPtr.Zero);
+            IntPtr desktop = g.GetHdc();
+            int logicalScreenHeight = NativeMethods.GetDeviceCaps(desktop, (int)WinAPI.DeviceCap.VERTRES);
+            int physicalScreenHeight = NativeMethods.GetDeviceCaps(desktop, (int)WinAPI.DeviceCap.DESKTOPVERTRES);
+
+            float ScreenScalingFactor = (float)physicalScreenHeight / (float)logicalScreenHeight;
+
+            return ScreenScalingFactor; // 1.25 = 125%
         }
 
         protected override void Dispose(bool isDisposing)
