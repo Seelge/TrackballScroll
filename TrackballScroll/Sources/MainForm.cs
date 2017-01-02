@@ -101,12 +101,15 @@ namespace TrackballScroll
             mouseHook.Unhook();
             Application.Exit();
         }
+
         private float GetScalingFactor()
         {
             Graphics g = Graphics.FromHwnd(IntPtr.Zero);
             IntPtr desktop = g.GetHdc();
             int logicalScreenHeight = NativeMethods.GetDeviceCaps(desktop, (int)WinAPI.DeviceCap.VERTRES);
             int physicalScreenHeight = NativeMethods.GetDeviceCaps(desktop, (int)WinAPI.DeviceCap.DESKTOPVERTRES);
+            g.ReleaseHdc(desktop);
+            g.Dispose();
 
             float ScreenScalingFactor = (float)physicalScreenHeight / (float)logicalScreenHeight;
 
