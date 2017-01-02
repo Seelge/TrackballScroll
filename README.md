@@ -27,7 +27,7 @@ https://github.com/Seelge/TrackballScroll/releases/latest
 - Build the solution
 
 ###### Version history
-- (master) Updated application icon.
+- v2.1.0 fixes issue #5 with high dpi scaling.
 - v2.0.1 Added an application icon and moved all strings to a resource file.
 - v2.0.0 The application is accessible through a systray-icon, the console window is gone. Converted from C++ to C#.
 - v1.1.0 Add horizontal scroll 
