@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 14
-VisualStudioVersion = 14.0.25123.0
+VisualStudioVersion = 14.0.25420.1
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{8AE129FB-38AA-4DE5-A9B1-2B9880B2F6D4}"
 	ProjectSection(SolutionItems) = preProject
@@ -11,6 +11,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TrackballScroll", "TrackballScroll\TrackballScroll.csproj", "{5925C977-B8FE-451C-AC77-71EFFE5ADF53}"
+EndProject
+Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "Setup", "Setup\Setup.vdproj", "{0AF1E8E0-D86C-42BC-85F5-FBCACBF21015}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -22,6 +24,10 @@ Global
 		{5925C977-B8FE-451C-AC77-71EFFE5ADF53}.Debug|x64.Build.0 = Debug|Any CPU
 		{5925C977-B8FE-451C-AC77-71EFFE5ADF53}.Release|x64.ActiveCfg = Release|Any CPU
 		{5925C977-B8FE-451C-AC77-71EFFE5ADF53}.Release|x64.Build.0 = Release|Any CPU
+		{0AF1E8E0-D86C-42BC-85F5-FBCACBF21015}.Debug|x64.ActiveCfg = Debug
+		{0AF1E8E0-D86C-42BC-85F5-FBCACBF21015}.Debug|x64.Build.0 = Debug
+		{0AF1E8E0-D86C-42BC-85F5-FBCACBF21015}.Release|x64.ActiveCfg = Release
+		{0AF1E8E0-D86C-42BC-85F5-FBCACBF21015}.Release|x64.Build.0 = Release
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
