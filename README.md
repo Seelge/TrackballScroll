@@ -27,7 +27,8 @@ https://github.com/Seelge/TrackballScroll/releases/latest
 - Build the solution
 
 ###### Version history
-- v2.2.0 *TODO*
+- v2.2.0 *TODO*. also: remember to update the about dialog.
+- v2.1.1 fixes issues #8, #9, #10. Instead of calculating the scaled coordinates, both original and scaled coordinates are memorized.
 - v2.1.0 fixes issue #5 with high dpi scaling. Note: The app must be restartet after changing the scaling factor in windows.
 - v2.0.1 Added an application icon and moved all strings to a resource file.
 - v2.0.0 The application is accessible through a systray-icon, the console window is gone. Converted from C++ to C#.
