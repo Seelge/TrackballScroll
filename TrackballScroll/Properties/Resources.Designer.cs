@@ -125,13 +125,15 @@ namespace TrackballScroll.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to TrackballScroll v2.0.1
-        ///Copyright (c) 2016 Martin Seelge
-        ///License: The MIT License
+        ///   Looks up a localized string similar to TrackballScroll v2.1.1
+        ///Copyright (c) 2016, 2017 Martin Seelge
         ///Project URL: https://github.com/Seelge/TrackballScroll/
         ///
         ///Scroll with your trackball / mouse movement when holding down button 3 or 4.
-        ///See README.md for additional information..
+        ///See README.md for additional information.
+        ///
+        ///License: The MIT License
+        ///https://github.com/Seelge/TrackballScroll/blob/master/LICENSE.
         /// </summary>
         internal static string TextMessageBoxAbout {
             get {

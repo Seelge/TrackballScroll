@@ -27,11 +27,20 @@ namespace TrackballScroll
         WinAPI.POINT _origin;         // cursor position when entering state DOWN
         int _xcount = 0;       // accumulated horizontal movement while in state SCROLL
         int _ycount = 0;       // accumulated vertical movement while in state SCROLL
-        private readonly float _scalingFactor;
+        private float _scalingFactor;
 
-        public MouseHookTrackballScroll(float scalingFactor)
+        public MouseHookTrackballScroll()
         {
-            _scalingFactor = scalingFactor;
+        }
+
+        public void UpdateScalingFactor()
+        {
+            _scalingFactor = NativeMethods.Helper.GetScalingFactor();
+        }
+
+        private int GetScaled(int v)
+        {
+            return (int)(v / _scalingFactor);
         }
 
         public override IntPtr HookCallback(int nCode, IntPtr wParam, IntPtr lParam)
@@ -81,7 +90,7 @@ namespace TrackballScroll
                         _state = State.SCROLL;
                         _xcount = 0;
                         _ycount = 0;
-                        NativeMethods.SetCursorPos(_origin.x, _origin.y);
+                        NativeMethods.SetCursorPos(GetScaled(_origin.x), GetScaled(_origin.y));
                     }
                     break;
                 case State.SCROLL:
@@ -96,10 +105,7 @@ namespace TrackballScroll
                         _xcount += p.pt.x - _origin.x;
                         _ycount += p.pt.y - _origin.y;
 
-                        var originXScaled = (int)(_origin.x / _scalingFactor);
-                        var originYScaled = (int) (_origin.y / _scalingFactor);
-
-                        NativeMethods.SetCursorPos(originXScaled, originYScaled);
+                        NativeMethods.SetCursorPos(GetScaled(_origin.x), GetScaled(_origin.y));
                         if (_xcount < -X_THRESHOLD || _xcount > X_THRESHOLD)
                         {
                             uint mouseData = (uint)(_xcount > 0 ? +WinAPI.WHEEL_DELTA : -WinAPI.WHEEL_DELTA); // scroll direction

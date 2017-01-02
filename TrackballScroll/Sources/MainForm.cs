@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Drawing;
 using System.Windows.Forms;
 
 /*
@@ -29,8 +28,8 @@ namespace TrackballScroll
 
         public MainForm()
         {
-            var scalingFactor = GetScalingFactor();
-            mouseHook = new MouseHookTrackballScroll(scalingFactor);
+            mouseHook = new MouseHookTrackballScroll();
+            mouseHook.UpdateScalingFactor();
 
             itemEnabled = new MenuItem(Properties.Resources.TextButtonHookEnabled, OnToggleHook);
             itemEnabled.Checked = true;
@@ -69,6 +68,7 @@ namespace TrackballScroll
             }
             else
             {
+                mouseHook.UpdateScalingFactor();
                 mouseHook.Hook();
                 itemEnabled.Checked = true;
                 itemEnabled.Text = Properties.Resources.TextButtonHookEnabled;
@@ -100,20 +100,6 @@ namespace TrackballScroll
         {
             mouseHook.Unhook();
             Application.Exit();
-        }
-
-        private float GetScalingFactor()
-        {
-            Graphics g = Graphics.FromHwnd(IntPtr.Zero);
-            IntPtr desktop = g.GetHdc();
-            int logicalScreenHeight = NativeMethods.GetDeviceCaps(desktop, (int)WinAPI.DeviceCap.VERTRES);
-            int physicalScreenHeight = NativeMethods.GetDeviceCaps(desktop, (int)WinAPI.DeviceCap.DESKTOPVERTRES);
-            g.ReleaseHdc(desktop);
-            g.Dispose();
-
-            float ScreenScalingFactor = (float)physicalScreenHeight / (float)logicalScreenHeight;
-
-            return ScreenScalingFactor; // 1.25 = 125%
         }
 
         protected override void Dispose(bool isDisposing)
