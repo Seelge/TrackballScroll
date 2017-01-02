@@ -28,10 +28,10 @@ namespace TrackballScroll
         [DllImport("user32.dll", CharSet = CharSet.Unicode, SetLastError = true, ThrowOnUnmappableChar = true)]
         public static extern uint SendInput(uint nInputs, WinAPI.INPUT[] pInputs, int cbSize);
 
-        [DllImport("user32.dll", CharSet = CharSet.Unicode, SetLastError = true, ThrowOnUnmappableChar = true)]
-        public static extern bool SetCursorPos(int X, int Y);
-
-        [DllImport("gdi32.dll")]
-        public static extern int GetDeviceCaps(IntPtr hdc, int nIndex);
+#if DEBUG
+        [DllImport("kernel32.dll", SetLastError = true)]
+        [return: MarshalAs(UnmanagedType.Bool)]
+        public static extern bool AllocConsole();
+#endif
     }
 }
