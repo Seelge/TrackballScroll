@@ -28,27 +28,10 @@ namespace TrackballScroll
         [DllImport("user32.dll", CharSet = CharSet.Unicode, SetLastError = true, ThrowOnUnmappableChar = true)]
         public static extern uint SendInput(uint nInputs, WinAPI.INPUT[] pInputs, int cbSize);
 
-        [DllImport("user32.dll", CharSet = CharSet.Unicode, SetLastError = true, ThrowOnUnmappableChar = true)]
-        public static extern bool SetCursorPos(int X, int Y);
-
-        [DllImport("gdi32.dll")]
-        public static extern int GetDeviceCaps(IntPtr hdc, int nIndex);
-
-        public class Helper
-        {
-            // Returns the scaling factor of the primary monitor
-            public static float GetScalingFactor()
-            {
-                System.Drawing.Graphics g = System.Drawing.Graphics.FromHwnd(IntPtr.Zero);
-                IntPtr desktop = g.GetHdc();
-                int logicalScreenHeight = NativeMethods.GetDeviceCaps(desktop, (int)WinAPI.DeviceCap.VERTRES);
-                int physicalScreenHeight = NativeMethods.GetDeviceCaps(desktop, (int)WinAPI.DeviceCap.DESKTOPVERTRES);
-                g.ReleaseHdc(desktop);
-                g.Dispose();
-
-                float screenScalingFactor = (float)physicalScreenHeight / (float)logicalScreenHeight;
-                return screenScalingFactor; // 1.25 = 125%
-            }
-        }
+#if DEBUG
+        [DllImport("kernel32.dll", SetLastError = true)]
+        [return: MarshalAs(UnmanagedType.Bool)]
+        public static extern bool AllocConsole();
+#endif
     }
 }

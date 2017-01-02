@@ -18,6 +18,11 @@ namespace TrackballScroll
         [STAThread]
         public static void Main()
         {
+#if DEBUG
+            NativeMethods.AllocConsole();
+            Console.WriteLine("Running TrackballScroll in debug mode"); 
+#endif
+
             Application.Run(new MainForm());
         }
 
@@ -29,7 +34,6 @@ namespace TrackballScroll
         public MainForm()
         {
             mouseHook = new MouseHookTrackballScroll();
-            mouseHook.UpdateScalingFactor();
 
             itemEnabled = new MenuItem(Properties.Resources.TextButtonHookEnabled, OnToggleHook);
             itemEnabled.Checked = true;
@@ -68,7 +72,6 @@ namespace TrackballScroll
             }
             else
             {
-                mouseHook.UpdateScalingFactor();
                 mouseHook.Hook();
                 itemEnabled.Checked = true;
                 itemEnabled.Text = Properties.Resources.TextButtonHookEnabled;

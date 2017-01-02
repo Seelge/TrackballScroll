@@ -1,6 +1,20 @@
 ﻿using System;
 using System.Runtime.InteropServices;
 
+// NLog-like api for writing to console
+namespace NLog
+{
+    class ILogger
+    {
+        public void Trace(string s)
+        {
+#if DEBUG
+            Console.WriteLine(s);
+#endif
+        }
+    }
+}
+
 namespace TrackballScroll
 {
     /*
@@ -15,6 +29,7 @@ namespace TrackballScroll
         const uint WHEEL_FACTOR = 1; // number of wheel events. The lines scrolled per wheel event are determined by the Microsoft Windows mouse wheel settings.
 
         public bool preferAxisMovement { get; set; }
+        private NLog.ILogger log { get; }
 
         enum State
         {
@@ -23,24 +38,22 @@ namespace TrackballScroll
             SCROLL,     // mouse XButton pressed + moved
         };
 
-        State _state = State.NORMAL; // initial state
-        WinAPI.POINT _origin;         // cursor position when entering state DOWN
-        int _xcount = 0;       // accumulated horizontal movement while in state SCROLL
-        int _ycount = 0;       // accumulated vertical movement while in state SCROLL
-        private float _scalingFactor;
+        State _state = State.NORMAL;  // initial state
+
+        // On scaling:
+        // _origin contains original screen resolution values as reported by the event message.
+        // _originScaled containes scaled positions as required by SetCursorPos/Cursor.Position.
+        // Instead of handling different scaling values on multiple monitors, they both positions are stored independantly.
+        WinAPI.POINT _origin;               // cursor position when entering state DOWN
+        System.Drawing.Point _originScaled; // cursor position when entering state DOWN with scaling
+        int _xcount = 0;                    // accumulated horizontal movement while in state SCROLL
+        int _ycount = 0;                    // accumulated vertical movement while in state SCROLL
 
         public MouseHookTrackballScroll()
         {
-        }
-
-        public void UpdateScalingFactor()
-        {
-            _scalingFactor = NativeMethods.Helper.GetScalingFactor();
-        }
-
-        private int GetScaled(int v)
-        {
-            return (int)(v / _scalingFactor);
+#if DEBUG
+            log = new NLog.ILogger();
+#endif
         }
 
         public override IntPtr HookCallback(int nCode, IntPtr wParam, IntPtr lParam)
@@ -52,6 +65,9 @@ namespace TrackballScroll
 
             bool preventCallNextHookEx = false;
             WinAPI.MSLLHOOKSTRUCT p = (WinAPI.MSLLHOOKSTRUCT)Marshal.PtrToStructure(lParam, typeof(WinAPI.MSLLHOOKSTRUCT));
+#if DEBUG
+            var oldState = _state;
+#endif
             switch (_state)
             {
                 case State.NORMAL:
@@ -60,6 +76,10 @@ namespace TrackballScroll
                         preventCallNextHookEx = true;
                         _state = State.DOWN;
                         _origin = p.pt;
+                        _originScaled = System.Windows.Forms.Cursor.Position;
+#if DEBUG
+                        log.Trace(String.Format("{0}->{1} set origin {2},{3} scaled {4},{5}", oldState, _state, _origin.x, _origin.y, _originScaled.X, _originScaled.Y));
+#endif
                     }
                     break;
                 case State.DOWN:
@@ -90,7 +110,7 @@ namespace TrackballScroll
                         _state = State.SCROLL;
                         _xcount = 0;
                         _ycount = 0;
-                        NativeMethods.SetCursorPos(GetScaled(_origin.x), GetScaled(_origin.y));
+                        System.Windows.Forms.Cursor.Position = _originScaled;
                     }
                     break;
                 case State.SCROLL:
@@ -105,7 +125,7 @@ namespace TrackballScroll
                         _xcount += p.pt.x - _origin.x;
                         _ycount += p.pt.y - _origin.y;
 
-                        NativeMethods.SetCursorPos(GetScaled(_origin.x), GetScaled(_origin.y));
+                        System.Windows.Forms.Cursor.Position = _originScaled;
                         if (_xcount < -X_THRESHOLD || _xcount > X_THRESHOLD)
                         {
                             uint mouseData = (uint)(_xcount > 0 ? +WinAPI.WHEEL_DELTA : -WinAPI.WHEEL_DELTA); // scroll direction
