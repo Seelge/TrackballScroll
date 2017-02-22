@@ -8,7 +8,7 @@ Changes the behaviour of both X-Buttons (typically buttons 3 and 4) to
 
 ###### Requirements
 - A trackball or mouse with X-Buttons
-- A Microsoft Windows operating system with .NET 4.5.2
+- A Microsoft Windows x64 operating system with .NET 4.5.2
 
 This software has been tested with a *Logitech Marble Trackball*(tm) and *Microsoft Windows 10*.
 
