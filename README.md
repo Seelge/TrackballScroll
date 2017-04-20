@@ -1,7 +1,7 @@
-TrackballScroll
-===============
 **NOTE: Currently not compatible with Windows 10 Creators Update (April 2017), see issue #14**
 
+TrackballScroll
+===============
 **Allow scrolling with a trackball without scroll wheel by using a low level mouse hook.**
 
 Changes the behaviour of both X-Buttons (typically buttons 3 and 4) to
