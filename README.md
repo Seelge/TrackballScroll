@@ -1,5 +1,4 @@
-**NOTE: Currently not fully compatible with Windows 10 Creators Update (April 2017)**
-**      Scrolling works but middle clicks are delayed, see issue #14**
+**NOTE: Currently not fully compatible with Windows 10 Creators Update (April 2017). Scrolling works but middle clicks are delayed, see issue #14**
 
 TrackballScroll
 ===============
