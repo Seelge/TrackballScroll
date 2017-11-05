@@ -109,6 +109,7 @@ namespace TrackballScroll
         {
             if (isDisposing)
             {
+                mouseHook.Dispose();
                 trayIcon.Dispose();
             }
 
