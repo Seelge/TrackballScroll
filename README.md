@@ -1,5 +1,7 @@
 **NOTE: Currently not fully compatible with Windows 10 Creators Update (April 2017). Scrolling works but middle clicks are delayed, see issue #14**
 
+[![Build status](https://ci.appveyor.com/api/projects/status/4djs3rk5v8s4oqy0/branch/master?svg=true)](https://ci.appveyor.com/project/Seelge/trackballscroll/branch/master)
+
 TrackballScroll
 ===============
 **Allow scrolling with a trackball without scroll wheel by using a low level mouse hook.**
