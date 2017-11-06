@@ -22,7 +22,7 @@ namespace TrackballScroll
      * 
      * @author: Martin Seelge
      */
-    class MouseHookTrackballScroll : MouseHookBase
+    class MouseHookTrackballScroll : MouseHookBase, IDisposable
     {
         const int X_THRESHOLD = 10;   // threshold in pixels to trigger wheel event
         const int Y_THRESHOLD = 10;   // threshold in pixels to trigger wheel event
@@ -30,6 +30,7 @@ namespace TrackballScroll
 
         public bool preferAxisMovement { get; set; }
         private NLog.ILogger log { get; }
+        private System.Timers.Timer timer { get; set; }
 
         enum State
         {
@@ -51,6 +52,11 @@ namespace TrackballScroll
 
         public MouseHookTrackballScroll()
         {
+            timer = new System.Timers.Timer();
+            timer.Interval = 1;
+            timer.Elapsed += (sender, e) => {
+                timer.Enabled = false;
+            }; 
 #if DEBUG
             log = new NLog.ILogger();
 #endif
@@ -145,7 +151,11 @@ namespace TrackballScroll
                                 input[i].mi.time = 0x0;
                                 input[i].mi.dwExtraInfo = IntPtr.Zero;
                             }
-                            NativeMethods.SendInput((uint)input.Length, input, Marshal.SizeOf(typeof(WinAPI.INPUT)));
+                            if (!timer.Enabled)
+                            {
+                                timer.Start();
+                                NativeMethods.SendInput((uint)input.Length, input, Marshal.SizeOf(typeof(WinAPI.INPUT)));
+                            }
                         }
 
                         if (_ycount < -Y_THRESHOLD || _ycount > Y_THRESHOLD)
@@ -167,13 +177,22 @@ namespace TrackballScroll
                                 input[i].mi.time = 0x0;
                                 input[i].mi.dwExtraInfo = IntPtr.Zero;
                             }
-                            NativeMethods.SendInput((uint)input.Length, input, Marshal.SizeOf(typeof(WinAPI.INPUT)));
+                            if (!timer.Enabled)
+                            {
+                                timer.Start();
+                                NativeMethods.SendInput((uint)input.Length, input, Marshal.SizeOf(typeof(WinAPI.INPUT)));
+                            }
                         }
                     }
                     break;
             }
             // Return TRUE if handled
             return (preventCallNextHookEx ? (IntPtr)1 : NativeMethods.CallNextHookEx(_hookID, nCode, wParam, lParam));
+        }
+
+        public void Dispose()
+        {
+            timer.Dispose();
         }
     }
 }
