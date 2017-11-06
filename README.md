@@ -1,5 +1,3 @@
-**NOTE: Currently not fully compatible with Windows 10 Creators Update (April 2017). Scrolling works but middle clicks are delayed, see issue #14**
-
 [![Build status](https://ci.appveyor.com/api/projects/status/4djs3rk5v8s4oqy0/branch/master?svg=true)](https://ci.appveyor.com/project/Seelge/trackballscroll/branch/master)
 
 TrackballScroll
@@ -31,6 +29,7 @@ https://github.com/Seelge/TrackballScroll/releases/latest
 - Build the solution
 
 ###### Version history
+- v2.1.2 fixes #14.
 - v2.1.1 fixes issues #8, #9, #10. Instead of calculating the scaled coordinates, both original and scaled coordinates are memorized.
 - v2.1.0 fixes issue #5 with high dpi scaling. Note: The app must be restartet after changing the scaling factor in windows.
 - v2.0.1 Added an application icon and moved all strings to a resource file.
