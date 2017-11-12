@@ -140,11 +140,11 @@
     <value>Prefer vertical/horizontal movement</value>
   </data>
   <data name="TextMessageBoxAbout" xml:space="preserve">
-    <value>TrackballScroll v2.1.2
+    <value>TrackballScroll v3
 Copyright (c) 2016, 2017 Martin Seelge
 Project URL: https://github.com/Seelge/TrackballScroll/
 
-Scroll with your trackball / mouse movement when holding down button 3 or 4.
+Scroll with your trackball / mouse movement when holding down button X1 or X2 (typically buttons 3, 4).
 See README.md for additional information.
 
 License: The MIT License
@@ -152,5 +152,11 @@ https://github.com/Seelge/TrackballScroll/blob/master/LICENSE</value>
   </data>
   <data name="TextTitle" xml:space="preserve">
     <value>TrackballScroll</value>
+  </data>
+  <data name="TextButtonHookUseX1" xml:space="preserve">
+    <value>Use button X1</value>
+  </data>
+  <data name="TextButtonHookUseX2" xml:space="preserve">
+    <value>Use button X2</value>
   </data>
 </root>

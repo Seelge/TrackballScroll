@@ -9,7 +9,7 @@ namespace NLog
         public void Trace(string s)
         {
 #if DEBUG
-            Console.WriteLine(s);
+            System.Diagnostics.Debug.WriteLine(s); // Writes to VS output view
 #endif
         }
     }
@@ -31,6 +31,8 @@ namespace TrackballScroll
         public bool preferAxisMovement { get; set; }
         private NLog.ILogger log { get; }
         private System.Timers.Timer timer { get; set; }
+        public bool useX1 { get; set; }
+        public bool useX2 { get; set; }
 
         enum State
         {
@@ -56,7 +58,7 @@ namespace TrackballScroll
             timer.Interval = 1;
             timer.Elapsed += (sender, e) => {
                 timer.Enabled = false;
-            }; 
+            };
 #if DEBUG
             log = new NLog.ILogger();
 #endif
@@ -71,14 +73,22 @@ namespace TrackballScroll
 
             bool preventCallNextHookEx = false;
             WinAPI.MSLLHOOKSTRUCT p = (WinAPI.MSLLHOOKSTRUCT)Marshal.PtrToStructure(lParam, typeof(WinAPI.MSLLHOOKSTRUCT));
+            uint xbutton = (p.mouseData & 0xFFFF0000) >> 16; // see https://msdn.microsoft.com/de-de/library/windows/desktop/ms644970(v=vs.85).aspx
+
 #if DEBUG
             var oldState = _state;
+            log.Trace(String.Format("useX1 {0}, useX2 {1}, xbutton {2}", useX1, useX2, xbutton));
 #endif
+
             switch (_state)
             {
                 case State.NORMAL:
                     if (WinAPI.MouseMessages.WM_XBUTTONDOWN == (WinAPI.MouseMessages)wParam)
                     { // NORMAL->DOWN: remember position
+                        if (!(useX1 && xbutton == 1) && !(useX2 && xbutton == 2))
+                        {
+                            break;
+                        }
                         preventCallNextHookEx = true;
                         _state = State.DOWN;
                         _origin = p.pt;
@@ -91,6 +101,10 @@ namespace TrackballScroll
                 case State.DOWN:
                     if (WinAPI.MouseMessages.WM_XBUTTONUP == (WinAPI.MouseMessages)wParam)
                     { // DOWN->NORMAL: middle button click
+                        if (!(useX1 && xbutton == 1) && !(useX2 && xbutton == 2))
+                        {
+                            break;
+                        }
                         preventCallNextHookEx = true;
                         _state = State.NORMAL;
                         WinAPI.INPUT[] input = new WinAPI.INPUT[2];
@@ -122,6 +136,10 @@ namespace TrackballScroll
                 case State.SCROLL:
                     if (WinAPI.MouseMessages.WM_XBUTTONUP == (WinAPI.MouseMessages)wParam)
                     { // SCROLL->NORMAL
+                        if (!(useX1 && xbutton == 1) && !(useX2 && xbutton == 2))
+                        {
+                            break;
+                        }
                         preventCallNextHookEx = true;
                         _state = State.NORMAL;
                     }

@@ -107,6 +107,24 @@ namespace TrackballScroll.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Use button X1.
+        /// </summary>
+        internal static string TextButtonHookUseX1 {
+            get {
+                return ResourceManager.GetString("TextButtonHookUseX1", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Use button X2.
+        /// </summary>
+        internal static string TextButtonHookUseX2 {
+            get {
+                return ResourceManager.GetString("TextButtonHookUseX2", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Prefer vertical/horizontal movement (disabled).
         /// </summary>
         internal static string TextButtonPreferAxisDisabled {
@@ -125,11 +143,11 @@ namespace TrackballScroll.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to TrackballScroll v2.1.2
+        ///   Looks up a localized string similar to TrackballScroll v3
         ///Copyright (c) 2016, 2017 Martin Seelge
         ///Project URL: https://github.com/Seelge/TrackballScroll/
         ///
-        ///Scroll with your trackball / mouse movement when holding down button 3 or 4.
+        ///Scroll with your trackball / mouse movement when holding down button X1 or X2 (typically buttons 3, 4).
         ///See README.md for additional information.
         ///
         ///License: The MIT License
