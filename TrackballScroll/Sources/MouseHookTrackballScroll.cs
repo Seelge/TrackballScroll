@@ -33,6 +33,7 @@ namespace TrackballScroll
         private System.Timers.Timer timer { get; set; }
         public bool useX1 { get; set; }
         public bool useX2 { get; set; }
+        public bool emulateMiddleButton { get; set; }
 
         enum State
         {
@@ -105,8 +106,12 @@ namespace TrackballScroll
                         {
                             break;
                         }
-                        preventCallNextHookEx = true;
                         _state = State.NORMAL;
+                        if(!emulateMiddleButton)
+                        {
+                            break;
+                        }
+                        preventCallNextHookEx = true;
                         WinAPI.INPUT[] input = new WinAPI.INPUT[2];
                         input[0].type = WinAPI.INPUT_MOUSE;
                         input[0].mi.dx = p.pt.x;

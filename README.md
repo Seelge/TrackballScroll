@@ -30,6 +30,7 @@ https://github.com/Seelge/TrackballScroll/releases/latest
 - Build the solution
 
 ###### Version history
+- v4 prevents #16... sort of (middle clicks can be disabled if necessary using the tray menu).
 - v3 feature #12: Allows to choose which X-buttons are used and saves the settings. Also changed versioning scheme to single numbers.
 - v2.1.2 fixes #14. Compatibility with Windows 10 versions of 2017.
 - v2.1.1 fixes issues #8, #9, #10. Instead of calculating the scaled coordinates, both original and scaled coordinates are memorized.

@@ -58,5 +58,17 @@ namespace TrackballScroll.Properties {
                 this["preferAxis"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public bool emulateMiddleButton {
+            get {
+                return ((bool)(this["emulateMiddleButton"]));
+            }
+            set {
+                this["emulateMiddleButton"] = value;
+            }
+        }
     }
 }

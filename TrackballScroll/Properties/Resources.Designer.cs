@@ -80,6 +80,15 @@ namespace TrackballScroll.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Emulate middle button when not scrolling.
+        /// </summary>
+        internal static string TextButtonEmulateMiddleButton {
+            get {
+                return ResourceManager.GetString("TextButtonEmulateMiddleButton", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Exit.
         /// </summary>
         internal static string TextButtonExit {
@@ -143,7 +152,7 @@ namespace TrackballScroll.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to TrackballScroll v3
+        ///   Looks up a localized string similar to TrackballScroll v4
         ///Copyright (c) 2016, 2017 Martin Seelge
         ///Project URL: https://github.com/Seelge/TrackballScroll/
         ///

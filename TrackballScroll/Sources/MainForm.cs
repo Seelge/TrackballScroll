@@ -30,6 +30,7 @@ namespace TrackballScroll
         private MenuItem itemUseX1;
         private MenuItem itemUseX2;
         private MenuItem itemPreferAxis;
+        private MenuItem itemEmulateMiddleButton;
         private MouseHookTrackballScroll mouseHook;
 
         public MainForm()
@@ -58,11 +59,17 @@ namespace TrackballScroll
             itemPreferAxis.Checked = preferAxis;
             mouseHook.preferAxisMovement = preferAxis;
 
+            var useMiddleButton = Properties.Settings.Default.emulateMiddleButton;
+            itemEmulateMiddleButton = new MenuItem(Properties.Resources.TextButtonEmulateMiddleButton, OnToggleEmulateMiddleButton);
+            itemEmulateMiddleButton.Checked = useMiddleButton;
+            mouseHook.emulateMiddleButton = useMiddleButton;
+
             ContextMenu trayMenu = new ContextMenu();
             trayMenu.MenuItems.Add(itemEnabled);
             trayMenu.MenuItems.Add(itemUseX1);
             trayMenu.MenuItems.Add(itemUseX2);
             trayMenu.MenuItems.Add(itemPreferAxis);
+            trayMenu.MenuItems.Add(itemEmulateMiddleButton);
             trayMenu.MenuItems.Add(Properties.Resources.TextButtonAbout, OnAbout);
             trayMenu.MenuItems.Add(Properties.Resources.TextButtonExit, OnExit);
 
@@ -144,6 +151,14 @@ namespace TrackballScroll
                 itemPreferAxis.Text = Properties.Resources.TextButtonPreferAxisEnabled;
             }
             Properties.Settings.Default.preferAxis = itemPreferAxis.Checked;
+            Properties.Settings.Default.Save();
+        }
+
+        private void OnToggleEmulateMiddleButton(object sender, EventArgs e)
+        {
+            itemEmulateMiddleButton.Checked = !itemEmulateMiddleButton.Checked;
+            mouseHook.emulateMiddleButton = itemEmulateMiddleButton.Checked;
+            Properties.Settings.Default.emulateMiddleButton = itemEmulateMiddleButton.Checked;
             Properties.Settings.Default.Save();
         }
 
