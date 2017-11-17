@@ -99,6 +99,7 @@ namespace TrackballScroll
                 itemUseX1.Enabled = false;
                 itemUseX2.Enabled = false;
                 itemPreferAxis.Enabled = false;
+                itemEmulateMiddleButton.Enabled = false;
             }
             else
             {
@@ -108,6 +109,7 @@ namespace TrackballScroll
                 itemUseX1.Enabled = true;
                 itemUseX2.Enabled = true;
                 itemPreferAxis.Enabled = true;
+                itemEmulateMiddleButton.Enabled = true;
             }
         }
 
