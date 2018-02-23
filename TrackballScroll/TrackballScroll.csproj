@@ -83,6 +83,7 @@
     <Compile Include="Sources\MainForm.cs">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="Sources\MouseEventDispatcher.cs" />
     <Compile Include="Sources\MouseHookBase.cs" />
     <Compile Include="Sources\MouseHookTrackballScroll.cs" />
     <Compile Include="Sources\NativeMethods.cs" />

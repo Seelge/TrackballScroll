@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Concurrent;
 using System.Runtime.InteropServices;
 
 // NLog-like api for writing to console
@@ -22,32 +23,21 @@ namespace TrackballScroll
      * 
      * @author: Martin Seelge
      */
-    class MouseHookTrackballScroll : MouseHookBase, IDisposable
+    class MouseHookTrackballScroll : MouseHookBase
     {
         private NLog.ILogger Log { get; }
 
+        private ConcurrentQueue<MouseEvent> Queue { get; }
         private State State { get; set; }
-        private System.Timers.Timer Timer { get; set; }
 
-
-        public MouseHookTrackballScroll()
+        public MouseHookTrackballScroll(ConcurrentQueue<MouseEvent> queue)
         {
+            Queue = queue;
             State = new StateNormal();
-
-            Timer = new System.Timers.Timer();
-            Timer.Interval = 10;
-            Timer.Elapsed += (sender, e) => {
-                Timer.Enabled = false;
-            };
 
 #if DEBUG
             Log = new NLog.ILogger();
 #endif
-        }
-
-        protected uint SendInput(WinAPI.INPUT[] input)
-        {
-            return NativeMethods.SendInput((uint)input.Length, input, Marshal.SizeOf(typeof(WinAPI.INPUT)));
         }
 
         public override IntPtr HookCallback(int nCode, IntPtr wParam, IntPtr lParam)
@@ -61,22 +51,18 @@ namespace TrackballScroll
 
             var result = State.Process(wParam, llHookStruct, Properties.Settings.Default);
 
-            if (result.Input != null)
+            if(result.ResetPosition.HasValue)
             {
-                if (!Timer.Enabled)
-                {
-                    Timer.Start();
-                    SendInput(result.Input);
-                }                
+                System.Windows.Forms.Cursor.Position = result.ResetPosition.Value;
+            }
+
+            if (result.Input != null)
+            {                
+                Queue.Enqueue(new MouseEvent(result.Input));
             }
 
             State = result.NextState;
             return (result.PreventCallNextHookEx ? (IntPtr)1 : NativeMethods.CallNextHookEx(_hookID, nCode, wParam, lParam));
-        }
-
-        public void Dispose()
-        {
-            Timer.Dispose();
         }
     }
 }

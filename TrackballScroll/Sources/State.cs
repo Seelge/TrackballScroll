@@ -1,11 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Diagnostics.Contracts;
 using System.Drawing;
-using System.Linq;
-using System.Runtime.InteropServices;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace TrackballScroll
 {
@@ -15,16 +10,18 @@ namespace TrackballScroll
         {
             public State NextState { get; }
             public bool PreventCallNextHookEx { get; }
+            public Point? ResetPosition { get; }
             public WinAPI.INPUT[] Input { get; }
 
             public Result(State nextState)
-                : this(nextState, false, null)
+                : this(nextState, false, null, null)
             { }
 
-            public Result(State nextState, bool preventCallNextHookEx, WinAPI.INPUT[] input)
+            public Result(State nextState, bool preventCallNextHookEx, Point? resetPosition, WinAPI.INPUT[] input)
             {
                 NextState = nextState;
                 PreventCallNextHookEx = preventCallNextHookEx;
+                ResetPosition = resetPosition;
                 Input = input;
             }
         }
@@ -67,7 +64,7 @@ namespace TrackballScroll
                     return new Result(this);
                 }
 
-                return new Result(new StateDown(llHookStruct.pt, System.Windows.Forms.Cursor.Position), true, null);
+                return new Result(new StateDown(llHookStruct.pt, System.Windows.Forms.Cursor.Position), true, null, null);
             }
             return new Result(this);
         }
@@ -99,13 +96,11 @@ namespace TrackballScroll
                 var input = InputMiddleClick(llHookStruct.pt);
                 //SendInput(input);
 
-                return new Result(new StateNormal(), true, input);
+                return new Result(new StateNormal(), true, null, input);
             }
             else if (WinAPI.MouseMessages.WM_MOUSEMOVE == (WinAPI.MouseMessages)wParam)
             { // DOWN->SCROLL                
-                System.Windows.Forms.Cursor.Position = OriginScaled;
-
-                return new Result(new StateScroll(Origin, OriginScaled, 0, 0), true, null);
+                return new Result(new StateScroll(Origin, OriginScaled, 0, 0), true, OriginScaled, null);
             }
             return new Result(this);
         }
@@ -159,15 +154,13 @@ namespace TrackballScroll
                     return new Result(this);
                 }
 
-                return new Result(new StateNormal(), true, null);
+                return new Result(new StateNormal(), true, null, null);
             }
 
             WinAPI.INPUT[] input = null;
 
             if (WinAPI.MouseMessages.WM_MOUSEMOVE == (WinAPI.MouseMessages)wParam)
             { // SCROLL->SCROLL: wheel event
-                System.Windows.Forms.Cursor.Position = OriginScaled;
-
                 int x = Xcount;
                 int y = Ycount;
 
@@ -196,7 +189,7 @@ namespace TrackballScroll
                 x += llHookStruct.pt.x - Origin.x;
                 y += llHookStruct.pt.y - Origin.y;
 
-                return new Result(new StateScroll(Origin, OriginScaled, x, y), true, input);
+                return new Result(new StateScroll(Origin, OriginScaled, x, y), true, OriginScaled, input);
             }
 
             return new Result(this);

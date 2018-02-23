@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Concurrent;
 using System.Windows.Forms;
 
 /*
@@ -31,13 +32,17 @@ namespace TrackballScroll
         private MenuItem itemUseX2;
         private MenuItem itemPreferAxis;
         private MenuItem itemEmulateMiddleButton;
+
         private MouseHookTrackballScroll mouseHook;
+        private MouseEventDispatcher mouseEventDispatcher;
 
         public MainForm()
         {
             Properties.Settings.Default.Upgrade();
 
-            mouseHook = new MouseHookTrackballScroll();
+            var queue = new ConcurrentQueue<MouseEvent>();
+            mouseHook = new MouseHookTrackballScroll(queue);
+            mouseEventDispatcher = new MouseEventDispatcher(queue);
 
             itemEnabled = new MenuItem(Properties.Resources.TextButtonHookEnabled, OnToggleHook)
             {
@@ -173,7 +178,7 @@ namespace TrackballScroll
         {
             if (isDisposing)
             {
-                mouseHook.Dispose();
+                mouseEventDispatcher.Dispose();
                 trayIcon.Dispose();
             }
 
