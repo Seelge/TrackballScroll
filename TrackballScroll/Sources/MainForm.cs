@@ -47,22 +47,18 @@ namespace TrackballScroll
             var useX1 = Properties.Settings.Default.useX1;
             itemUseX1 = new MenuItem(Properties.Resources.TextButtonHookUseX1, OnToggleUseX1);
             itemUseX1.Checked = useX1;
-            mouseHook.useX1   = useX1;
 
             var useX2 = Properties.Settings.Default.useX2;
             itemUseX2 = new MenuItem(Properties.Resources.TextButtonHookUseX2, OnToggleUseX2);
             itemUseX2.Checked = useX2;
-            mouseHook.useX2   = useX2;
 
             var preferAxis = Properties.Settings.Default.preferAxis;
             itemPreferAxis = new MenuItem(Properties.Resources.TextButtonPreferAxisEnabled, OnToggleAxis);
             itemPreferAxis.Checked = preferAxis;
-            mouseHook.preferAxisMovement = preferAxis;
 
             var useMiddleButton = Properties.Settings.Default.emulateMiddleButton;
             itemEmulateMiddleButton = new MenuItem(Properties.Resources.TextButtonEmulateMiddleButton, OnToggleEmulateMiddleButton);
             itemEmulateMiddleButton.Checked = useMiddleButton;
-            mouseHook.emulateMiddleButton = useMiddleButton;
 
             ContextMenu trayMenu = new ContextMenu();
             trayMenu.MenuItems.Add(itemEnabled);
@@ -117,7 +113,6 @@ namespace TrackballScroll
         {
             var useX1 = !itemUseX1.Checked;
             itemUseX1.Checked = useX1;
-            mouseHook.useX1 = useX1;
             Properties.Settings.Default.useX1 = useX1;
             Properties.Settings.Default.Save();
             if (!itemUseX1.Checked && !itemUseX2.Checked)
@@ -129,7 +124,6 @@ namespace TrackballScroll
         private void OnToggleUseX2(object sender, EventArgs e)
         {
             itemUseX2.Checked = !itemUseX2.Checked;
-            mouseHook.useX2 = itemUseX2.Checked;
             Properties.Settings.Default.useX2 = itemUseX2.Checked;
             Properties.Settings.Default.Save();
             if (!itemUseX1.Checked && !itemUseX2.Checked)
@@ -142,13 +136,11 @@ namespace TrackballScroll
         {
             if (itemPreferAxis.Checked)
             {
-                mouseHook.preferAxisMovement = false;
                 itemPreferAxis.Checked = false;
                 itemPreferAxis.Text = Properties.Resources.TextButtonPreferAxisDisabled;
             }
             else
             {
-                mouseHook.preferAxisMovement = true;
                 itemPreferAxis.Checked = true;
                 itemPreferAxis.Text = Properties.Resources.TextButtonPreferAxisEnabled;
             }
@@ -159,14 +151,16 @@ namespace TrackballScroll
         private void OnToggleEmulateMiddleButton(object sender, EventArgs e)
         {
             itemEmulateMiddleButton.Checked = !itemEmulateMiddleButton.Checked;
-            mouseHook.emulateMiddleButton = itemEmulateMiddleButton.Checked;
             Properties.Settings.Default.emulateMiddleButton = itemEmulateMiddleButton.Checked;
             Properties.Settings.Default.Save();
         }
 
         private void OnAbout(object sender, EventArgs e)
-        {
-            MessageBox.Show(Properties.Resources.TextMessageBoxAbout, Properties.Resources.TextTitle);
+        {           
+            MessageBoxOptions mbOptions = this.RightToLeft == RightToLeft.Yes // fulfill CA1300
+                ? MessageBoxOptions.DefaultDesktopOnly | MessageBoxOptions.RightAlign | MessageBoxOptions.RtlReading
+                : MessageBoxOptions.DefaultDesktopOnly;
+            MessageBox.Show(Properties.Resources.TextMessageBoxAbout, Properties.Resources.TextTitle, MessageBoxButtons.OK, MessageBoxIcon.Information, MessageBoxDefaultButton.Button1, mbOptions);
         }
 
         private void OnExit(object sender, EventArgs e)
