@@ -41,7 +41,7 @@ namespace TrackballScroll
             };
 
 #if DEBUG
-            log = new NLog.ILogger();
+            Log = new NLog.ILogger();
 #endif
         }
 
