@@ -2,20 +2,6 @@
 using System.Collections.Concurrent;
 using System.Runtime.InteropServices;
 
-// NLog-like api for writing to console
-namespace NLog
-{
-    class ILogger
-    {
-        public void Trace(string s)
-        {
-#if DEBUG
-            System.Diagnostics.Debug.WriteLine(s); // Writes to VS output view
-#endif
-        }
-    }
-}
-
 namespace TrackballScroll
 {
     /*
@@ -25,8 +11,6 @@ namespace TrackballScroll
      */
     class MouseHookTrackballScroll : MouseHookBase
     {
-        private NLog.ILogger Log { get; }
-
         private ConcurrentQueue<MouseEvent> Queue { get; }
         private State State { get; set; }
 
@@ -34,10 +18,6 @@ namespace TrackballScroll
         {
             Queue = queue;
             State = new StateNormal();
-
-#if DEBUG
-            Log = new NLog.ILogger();
-#endif
         }
 
         public override IntPtr HookCallback(int nCode, IntPtr wParam, IntPtr lParam)
@@ -50,8 +30,9 @@ namespace TrackballScroll
             WinAPI.MSLLHOOKSTRUCT llHookStruct = (WinAPI.MSLLHOOKSTRUCT)Marshal.PtrToStructure(lParam, typeof(WinAPI.MSLLHOOKSTRUCT));
 
             var result = State.Process(wParam, llHookStruct, Properties.Settings.Default);
+            State = result.NextState;
 
-            if(result.ResetPosition.HasValue)
+            if (result.ResetPosition.HasValue)
             {
                 System.Windows.Forms.Cursor.Position = result.ResetPosition.Value;
             }
@@ -61,7 +42,6 @@ namespace TrackballScroll
                 Queue.Enqueue(new MouseEvent(result.Input));
             }
 
-            State = result.NextState;
             return (result.PreventCallNextHookEx ? (IntPtr)1 : NativeMethods.CallNextHookEx(_hookID, nCode, wParam, lParam));
         }
     }
