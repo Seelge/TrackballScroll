@@ -166,8 +166,8 @@ namespace TrackballScroll
 
                 if (Xcount < -X_THRESHOLD || Xcount > X_THRESHOLD)
                 {
-                    uint mouseData = (uint)(Xcount > 0 ? +WinAPI.WHEEL_DELTA : -WinAPI.WHEEL_DELTA); // scroll direction
-                    x = 0;
+                    uint mouseData = (uint)(+WinAPI.WHEEL_DELTA * Xcount / X_THRESHOLD);
+                    x = Xcount - (Xcount / X_THRESHOLD) * X_THRESHOLD;
                     if (settings.preferAxis)
                     {
                         y = 0;
@@ -177,12 +177,12 @@ namespace TrackballScroll
 
                 if (Ycount < -Y_THRESHOLD || Ycount > Y_THRESHOLD)
                 {
-                    uint mouseData = (uint)(Ycount > 0 ? -WinAPI.WHEEL_DELTA : +WinAPI.WHEEL_DELTA); // scroll direction
+                    uint mouseData = (uint)(-WinAPI.WHEEL_DELTA * Ycount / Y_THRESHOLD);
                     if (settings.preferAxis)
                     {
                         x = 0;
                     }
-                    y = 0;
+                    y = Ycount - (Ycount / Y_THRESHOLD) * Y_THRESHOLD;
                     input = InputWheel(llHookStruct.pt, mouseData, WinAPI.MouseEvent.MOUSEEVENTF_WHEEL);
                 }
 
