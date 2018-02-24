@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Concurrent;
+using System.Collections.Generic;
 using System.Runtime.InteropServices;
 
 namespace TrackballScroll
@@ -17,7 +18,7 @@ namespace TrackballScroll
     class MouseEventDispatcher : IDisposable
     {
         private ConcurrentQueue<MouseEvent> Queue { get; }
-        private System.Timers.Timer Timer { get; set; }
+        private System.Timers.Timer Timer { get; }
 
         public MouseEventDispatcher(ConcurrentQueue<MouseEvent> queue)
         {
@@ -25,12 +26,13 @@ namespace TrackballScroll
 
             Timer = new System.Timers.Timer
             {
-                Interval = 20
+                AutoReset = false,
+                Interval = 100
             };
             Timer.Elapsed += (sender, e) => {
-                Timer.Enabled = false;
                 Dispatch();
             };
+            Timer.Enabled = true;
         }
 
         protected uint SendInput(WinAPI.INPUT[] input)
@@ -45,12 +47,31 @@ namespace TrackballScroll
 
         private void Dispatch()
         {
-            if (!Queue.IsEmpty && Queue.TryDequeue(out MouseEvent mouseEvent))
+            if(!Queue.IsEmpty)
             {
-                SendInput(mouseEvent.Input);
+                // get and count all existing inputs from the queue
+                var dispatchQueue = new Queue<MouseEvent>();
+                int inputCount = 0;
+                while(!Queue.IsEmpty && Queue.TryDequeue(out MouseEvent mouseEvent))
+                {
+                    dispatchQueue.Enqueue(mouseEvent);
+                    inputCount += mouseEvent.Input.Length; // input size may vary per event
+                }
+                // create new input containing all inputs
+                var input = new WinAPI.INPUT[inputCount];
+                for(int i = 0; i < inputCount;)
+                {
+                    var mouseEvent = dispatchQueue.Dequeue();
+                    for(int j = 0; j < mouseEvent.Input.Length; ++j)
+                    {
+                        input[i + j] = mouseEvent.Input[j];
+                    }
+                    i += mouseEvent.Input.Length; // advance by number of inputs
+                }
+                SendInput(input);
             }
 
-            Timer.Start();
+            Timer.Enabled = true;
         }
     }
 }
