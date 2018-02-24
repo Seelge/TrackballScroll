@@ -152,8 +152,8 @@ namespace TrackballScroll.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to TrackballScroll v4
-        ///Copyright (c) 2016, 2017 Martin Seelge
+        ///   Looks up a localized string similar to TrackballScroll v5
+        ///Copyright (c) 2016-2018 Martin Seelge
         ///Project URL: https://github.com/Seelge/TrackballScroll/
         ///
         ///Scroll with your trackball / mouse movement when holding down button X1 or X2 (typically buttons 3, 4).
