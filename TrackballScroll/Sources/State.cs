@@ -6,21 +6,27 @@ namespace TrackballScroll
 {
     abstract class State
     {
+        public enum CallNextHook
+        {
+            FALSE,
+            TRUE
+        }
+
         public class Result
         {
             public State NextState { get; }
-            public bool PreventCallNextHookEx { get; }
+            public CallNextHook CallNextHook { get; }
             public Point? ResetPosition { get; }
             public WinAPI.INPUT[] Input { get; }
 
             public Result(State nextState)
-                : this(nextState, false, null, null)
+                : this(nextState, CallNextHook.TRUE, null, null)
             { }
 
-            public Result(State nextState, bool preventCallNextHookEx, Point? resetPosition, WinAPI.INPUT[] input)
+            public Result(State nextState, CallNextHook callNextHook, Point? resetPosition, WinAPI.INPUT[] input)
             {
                 NextState = nextState;
-                PreventCallNextHookEx = preventCallNextHookEx;
+                CallNextHook = callNextHook;
                 ResetPosition = resetPosition;
                 Input = input;
             }
@@ -64,7 +70,7 @@ namespace TrackballScroll
                     return new Result(this);
                 }
 
-                return new Result(new StateDown(llHookStruct.pt, System.Windows.Forms.Cursor.Position), true, null, null);
+                return new Result(new StateDown(llHookStruct.pt, System.Windows.Forms.Cursor.Position), CallNextHook.FALSE, null, null);
             }
             return new Result(this);
         }
@@ -90,17 +96,15 @@ namespace TrackballScroll
 
                 if (!settings.emulateMiddleButton)
                 {
-                    return new Result(new StateNormal(), true, null, null);
+                    return new Result(new StateNormal(), CallNextHook.FALSE, null, null);
                 }
 
                 var input = InputMiddleClick(llHookStruct.pt);
-                //SendInput(input);
-
-                return new Result(new StateNormal(), true, null, input);
+                return new Result(new StateNormal(), CallNextHook.FALSE, null, input);
             }
             else if (WinAPI.MouseMessages.WM_MOUSEMOVE == (WinAPI.MouseMessages)wParam)
             { // DOWN->SCROLL                
-                return new Result(new StateScroll(Origin, OriginScaled, 0, 0), true, OriginScaled, null);
+                return new Result(new StateScroll(Origin, OriginScaled, 0, 0), CallNextHook.FALSE, OriginScaled, null);
             }
             return new Result(this);
         }
@@ -154,7 +158,7 @@ namespace TrackballScroll
                     return new Result(this);
                 }
 
-                return new Result(new StateNormal(), true, null, null);
+                return new Result(new StateNormal(), CallNextHook.FALSE, null, null);
             }
 
             WinAPI.INPUT[] input = null;
@@ -189,7 +193,7 @@ namespace TrackballScroll
                 x += llHookStruct.pt.x - Origin.x;
                 y += llHookStruct.pt.y - Origin.y;
 
-                return new Result(new StateScroll(Origin, OriginScaled, x, y), true, OriginScaled, input);
+                return new Result(new StateScroll(Origin, OriginScaled, x, y), CallNextHook.FALSE, OriginScaled, input);
             }
 
             return new Result(this);

@@ -42,7 +42,9 @@ namespace TrackballScroll
                 Queue.Enqueue(new MouseEvent(result.Input));
             }
 
-            return (result.PreventCallNextHookEx ? (IntPtr)1 : NativeMethods.CallNextHookEx(_hookID, nCode, wParam, lParam));
+            return result.CallNextHook == State.CallNextHook.TRUE
+                ? NativeMethods.CallNextHookEx(_hookID, nCode, wParam, lParam)
+                : (IntPtr)1;
         }
     }
 }
