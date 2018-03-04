@@ -32,11 +32,6 @@ namespace TrackballScroll
             var result = State.Process(wParam, llHookStruct, Properties.Settings.Default);
             State = result.NextState;
 
-            if (result.ResetPosition.HasValue)
-            {
-                System.Windows.Forms.Cursor.Position = result.ResetPosition.Value;
-            }
-
             if (result.Input != null)
             {                
                 Queue.Enqueue(new MouseEvent(result.Input));

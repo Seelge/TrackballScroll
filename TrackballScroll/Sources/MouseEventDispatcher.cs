@@ -8,6 +8,7 @@ namespace TrackballScroll
     class MouseEvent
     {
         public WinAPI.INPUT[] Input { get; }
+        public System.Drawing.Point? Position { get; }
 
         public MouseEvent(WinAPI.INPUT[] input)
         {
@@ -68,6 +69,7 @@ namespace TrackballScroll
                     }
                     i += mouseEvent.Input.Length; // advance by number of inputs
                 }
+
                 SendInput(input);
             }
 
