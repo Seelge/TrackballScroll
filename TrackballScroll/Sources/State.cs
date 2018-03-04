@@ -90,7 +90,7 @@ namespace TrackballScroll
 
                 if (!settings.emulateMiddleButton)
                 {
-                    return new Result(this);
+                    return new Result(new StateNormal(), true, null, null);
                 }
 
                 var input = InputMiddleClick(llHookStruct.pt);
