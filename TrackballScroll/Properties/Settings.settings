@@ -1,17 +1,22 @@
-﻿<?xml version='1.0' encoding='utf-8'?>
-<SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="TrackballScroll.Properties" GeneratedClassName="Settings">
-  <Profiles />
+﻿<?xml version="1.0" encoding="utf-8"?>
+<SettingsFile CurrentProfile="(Default)" GeneratedClassNamespace="TrackballScroll.Properties" GeneratedClassName="Settings" xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings">
+  <Profiles>
+    <Profile Name="(Default)" />
+  </Profiles>
   <Settings>
-    <Setting Name="useX1" Type="System.Boolean" Scope="User">
+    <Setting Name="emulateMiddleButton" Type="System.Boolean" Scope="User" Roaming="false">
       <Value Profile="(Default)">True</Value>
     </Setting>
-    <Setting Name="useX2" Type="System.Boolean" Scope="User">
+    <Setting Name="preferAxis" Type="System.Boolean" Scope="User" Roaming="false">
       <Value Profile="(Default)">True</Value>
     </Setting>
-    <Setting Name="preferAxis" Type="System.Boolean" Scope="User">
+    <Setting Name="reverseVertical" Type="System.Boolean" Scope="User" Roaming="false">
+      <Value Profile="(Default)">False</Value>
+    </Setting>
+    <Setting Name="useX1" Type="System.Boolean" Scope="User" Roaming="false">
       <Value Profile="(Default)">True</Value>
     </Setting>
-    <Setting Name="emulateMiddleButton" Type="System.Boolean" Scope="User">
+    <Setting Name="useX2" Type="System.Boolean" Scope="User" Roaming="false">
       <Value Profile="(Default)">True</Value>
     </Setting>
   </Settings>
