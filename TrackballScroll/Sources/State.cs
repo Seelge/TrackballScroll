@@ -177,7 +177,7 @@ namespace TrackballScroll
 
                 if (Ycount < -Y_THRESHOLD || Ycount > Y_THRESHOLD)
                 {
-                    uint mouseData = (uint)(-WinAPI.WHEEL_DELTA * Ycount / Y_THRESHOLD);
+                	uint mouseData = (uint)(-WinAPI.WHEEL_DELTA * (settings.reverseVertical?-1:1) * Ycount / Y_THRESHOLD);
                     if (settings.preferAxis)
                     {
                         x = 0;
