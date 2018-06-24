@@ -33,6 +33,7 @@ namespace TrackballScroll
         private MenuItem itemPreferAxis;
         private MenuItem itemEmulateMiddleButton;
         private MenuItem itemReverseVerticalScroll;
+        private MenuItem itemReverseHorizontalScroll;
 
         private MouseHookTrackballScroll mouseHook;
         private MouseEventDispatcher mouseEventDispatcher;
@@ -67,15 +68,21 @@ namespace TrackballScroll
             itemEmulateMiddleButton.Checked = useMiddleButton;
 
             var reverseVerticalScroll = Properties.Settings.Default.reverseVerticalScroll;
-            itemReverseVerticalScroll = new MenuItem(Properties.Resources.TextButtonReverseVerticalScroll, OnToggleReverseVerticalScroll);
+            itemReverseVerticalScroll = new MenuItem(Properties.Resources.TextButtonReverseVerticalScroll, OnToogleReverseVerticalScroll);
             itemReverseVerticalScroll.Checked = reverseVerticalScroll;
-            
+
+            var reverseHorizontalScroll = Properties.Settings.Default.reverseHorizontalScroll;
+            itemReverseHorizontalScroll = new MenuItem(Properties.Resources.TextButtonReverseHorizontalScroll, OnToogleReverseHorizontalScroll);
+            itemReverseHorizontalScroll.Checked = reverseHorizontalScroll;
+
             ContextMenu trayMenu = new ContextMenu();
             trayMenu.MenuItems.Add(itemEnabled);
             trayMenu.MenuItems.Add(itemUseX1);
             trayMenu.MenuItems.Add(itemUseX2);
             trayMenu.MenuItems.Add(itemPreferAxis);
             trayMenu.MenuItems.Add(itemEmulateMiddleButton);
+            trayMenu.MenuItems.Add(itemReverseVerticalScroll);
+            trayMenu.MenuItems.Add(itemReverseHorizontalScroll);
             trayMenu.MenuItems.Add(Properties.Resources.TextButtonAbout, OnAbout);
             trayMenu.MenuItems.Add(Properties.Resources.TextButtonExit, OnExit);
 
@@ -106,6 +113,8 @@ namespace TrackballScroll
                 itemUseX2.Enabled = false;
                 itemPreferAxis.Enabled = false;
                 itemEmulateMiddleButton.Enabled = false;
+                itemReverseVerticalScroll.Enabled = false;
+                itemReverseHorizontalScroll.Enabled = false;
             }
             else
             {
@@ -116,6 +125,8 @@ namespace TrackballScroll
                 itemUseX2.Enabled = true;
                 itemPreferAxis.Enabled = true;
                 itemEmulateMiddleButton.Enabled = true;
+                itemReverseVerticalScroll.Enabled = true;
+                itemReverseHorizontalScroll.Enabled = true;
             }
         }
 
@@ -165,13 +176,20 @@ namespace TrackballScroll
             Properties.Settings.Default.Save();
         }
 
-        private void OnToggleReverseVerticalScroll(object sender, EventArgs e)
+        private void OnToogleReverseVerticalScroll(object sender, EventArgs e)
         {
-        	itemReverseVerticalScroll.Checked = !itemReverseVerticalScroll.Checked;
-        	Properties.Settings.Default.reverseVerticalScroll = itemReverseVerticalScroll.Checked;
-        	Properties.Settings.Default.Save();
+            itemReverseVerticalScroll.Checked = !itemReverseVerticalScroll.Checked;
+            Properties.Settings.Default.reverseVerticalScroll = itemReverseVerticalScroll.Checked;
+            Properties.Settings.Default.Save();
         }
-        
+
+        private void OnToogleReverseHorizontalScroll(object sender, EventArgs e)
+        {
+            itemReverseHorizontalScroll.Checked = !itemReverseHorizontalScroll.Checked;
+            Properties.Settings.Default.reverseHorizontalScroll = itemReverseHorizontalScroll.Checked;
+            Properties.Settings.Default.Save();
+        }
+
         private void OnAbout(object sender, EventArgs e)
         {           
             MessageBoxOptions mbOptions = this.RightToLeft == RightToLeft.Yes // fulfill CA1300

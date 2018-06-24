@@ -166,8 +166,8 @@ namespace TrackballScroll
 
                 if (Xcount < -X_THRESHOLD || Xcount > X_THRESHOLD)
                 {
-                    uint mouseData = (uint)(+WinAPI.WHEEL_DELTA * Xcount / X_THRESHOLD);
-                    x = Xcount - (Xcount / X_THRESHOLD) * X_THRESHOLD;
+                    uint mouseData = (uint)((settings.reverseHorizontalScroll?-1:1) * WinAPI.WHEEL_DELTA * Xcount / X_THRESHOLD);
+                    x = Xcount - (Xcount / X_THRESHOLD) * X_THRESHOLD; //WARN: Hey, Martin, isn't a-(a/b)*b equals to zero?
                     if (settings.preferAxis)
                     {
                         y = 0;
@@ -177,12 +177,12 @@ namespace TrackballScroll
 
                 if (Ycount < -Y_THRESHOLD || Ycount > Y_THRESHOLD)
                 {
-                	uint mouseData = (uint)(-WinAPI.WHEEL_DELTA * (settings.reverseVertical?-1:1) * Ycount / Y_THRESHOLD);
+                    uint mouseData = (uint)( (settings.reverseVerticalScroll?1:-1) * WinAPI.WHEEL_DELTA * Ycount / Y_THRESHOLD);
                     if (settings.preferAxis)
                     {
                         x = 0;
                     }
-                    y = Ycount - (Ycount / Y_THRESHOLD) * Y_THRESHOLD;
+                    y = Ycount - (Ycount / Y_THRESHOLD) * Y_THRESHOLD; //WARN: Same here, maybe it's about braces?
                     input = InputWheel(llHookStruct.pt, mouseData, WinAPI.MouseEvent.MOUSEEVENTF_WHEEL);
                 }
 
