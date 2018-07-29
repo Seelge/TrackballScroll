@@ -26,10 +26,11 @@ https://github.com/Seelge/TrackballScroll/releases/latest
 ###### Compile the source code
 - Clone the repository from the github page or download the latest source code archive
 - Open the solution with *Microsoft Visual Studio 2017*.
-- Change the build type to `Release`. The program works in both 64 and 32 bit programs.
+- Change the build type to `Release`.
 - Build the solution
 
 ###### Version history
+- v6 fixes #20: allows to reverse scrolling directions
 - v5 fixes #17 + improved stability (rewrite of the mouse hook, state machine and mouse event sending)
 - v4 prevents #16... sort of (middle clicks can be disabled if necessary using the tray menu).
 - v3 feature #12: Allows to choose which X-buttons are used and saves the settings. Also changed versioning scheme to single numbers.

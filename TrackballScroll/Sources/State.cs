@@ -167,7 +167,7 @@ namespace TrackballScroll
                 if (Xcount < -X_THRESHOLD || Xcount > X_THRESHOLD)
                 {
                     uint mouseData = (uint)((settings.reverseHorizontalScroll?-1:1) * WinAPI.WHEEL_DELTA * Xcount / X_THRESHOLD);
-                    x = Xcount - (Xcount / X_THRESHOLD) * X_THRESHOLD; //WARN: Hey, Martin, isn't a-(a/b)*b equals to zero?
+                    x = Xcount - (Xcount / X_THRESHOLD) * X_THRESHOLD; // integer division
                     if (settings.preferAxis)
                     {
                         y = 0;
@@ -182,7 +182,7 @@ namespace TrackballScroll
                     {
                         x = 0;
                     }
-                    y = Ycount - (Ycount / Y_THRESHOLD) * Y_THRESHOLD; //WARN: Same here, maybe it's about braces?
+                    y = Ycount - (Ycount / Y_THRESHOLD) * Y_THRESHOLD; // integer division
                     input = InputWheel(llHookStruct.pt, mouseData, WinAPI.MouseEvent.MOUSEEVENTF_WHEEL);
                 }
 
