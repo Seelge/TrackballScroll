@@ -162,4 +162,10 @@ https://github.com/Seelge/TrackballScroll/blob/master/LICENSE</value>
   <data name="TextButtonEmulateMiddleButton" xml:space="preserve">
     <value>Emulate middle button when not scrolling</value>
   </data>
+  <data name="TextButtonReverseVerticalScroll" xml:space="preserve">
+    <value>Reverse verticall movement</value>
+  </data>
+  <data name="TextButtonReverseHorizontalScroll" xml:space="preserve">
+    <value>Reverse horizontal movement</value>
+  </data>
 </root>

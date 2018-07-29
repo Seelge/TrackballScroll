@@ -152,6 +152,24 @@ namespace TrackballScroll.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Reverse horizontal movement.
+        /// </summary>
+        internal static string TextButtonReverseHorizontalScroll {
+            get {
+                return ResourceManager.GetString("TextButtonReverseHorizontalScroll", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Reverse verticall movement.
+        /// </summary>
+        internal static string TextButtonReverseVerticalScroll {
+            get {
+                return ResourceManager.GetString("TextButtonReverseVerticalScroll", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to TrackballScroll v5
         ///Copyright (c) 2016-2018 Martin Seelge
         ///Project URL: https://github.com/Seelge/TrackballScroll/
